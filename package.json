@@ -1,0 +1,49 @@
+{
+  "name": "wireit-cache-validate",
+  "version": "0.0.0",
+  "description": "Validate if Wireit script is fully cached with subsequent runs.",
+  "bin": {
+    "wireit-cache-validate": "./src/index.mjs"
+  },
+  "main": "src/index.mjs",
+  "files": [
+    "./src/index.mjs",
+    "./README.md",
+    "./LICENSE"
+  ],
+  "scripts": {
+    "cache": "wireit",
+    "cache:validate": "npm run cache && ./src/index.mjs npm run cache",
+    "nocache": "wireit",
+    "nocache:validate": "node ./src/test.mjs && ./src/index.mjs npm run nocache"
+  },
+  "keywords": [
+    "wireit"
+  ],
+  "author": "Cory Rylan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blueprintui/wireit-cache-validate"
+  },
+  "wireit": {
+    "cache": {
+      "command": "echo 'text'",
+      "files": [],
+      "output": []
+    },
+    "nocache": {
+      "command": "node ./src/test.mjs",
+      "files": [
+        "src/test.mjs"
+      ],
+      "output": [
+        "dist/test.txt"
+      ]
+    }
+  },
+  "devDependencies": {
+    "wireit": "^0.14.9"
+  }
+}
+
