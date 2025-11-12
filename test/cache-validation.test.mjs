@@ -54,7 +54,7 @@ async function setupTestWorkspace(packageConfig) {
   );
 
   // Install dependencies
-  await asyncChildProcess('npm install --silent', { log: false });
+  await asyncChildProcess('pnpm install --silent', { log: false });
 }
 
 function cleanupTestWorkspace() {
@@ -103,7 +103,7 @@ describe('Wireit Cache Validation Tests', () => {
     mkdirSync(join(TEST_DIR, 'dist'), { recursive: true });
 
     // First run - should execute both tasks
-    const firstRun = await asyncChildProcess('npm run bundle');
+    const firstRun = await asyncChildProcess('pnpm bundle');
     assert.strictEqual(firstRun.code, 0, 'First run should succeed');
 
     // Verify output files were created
@@ -111,7 +111,7 @@ describe('Wireit Cache Validation Tests', () => {
     assert.ok(existsSync(join(TEST_DIR, 'dist/bundle.txt')), 'Bundle output should exist');
 
     // Second run - should use cache, validate with our tool
-    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics npm run bundle`;
+    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics pnpm bundle`;
     const secondRun = await asyncChildProcess(validateCommand);
     assert.strictEqual(secondRun.code, 0, 'Second run should succeed');
 
@@ -168,11 +168,11 @@ describe('Wireit Cache Validation Tests', () => {
     mkdirSync(join(TEST_DIR, 'dist'), { recursive: true });
 
     // First run - execute all tasks
-    const firstRun = await asyncChildProcess('npm run bundle');
+    const firstRun = await asyncChildProcess('pnpm bundle');
     assert.strictEqual(firstRun.code, 0, 'First run should succeed');
 
     // Second run - should use cache for all tasks
-    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics npm run bundle`;
+    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics pnpm bundle`;
     const secondRun = await asyncChildProcess(validateCommand);
     assert.strictEqual(secondRun.code, 0, 'Second run should succeed');
 
@@ -211,11 +211,11 @@ describe('Wireit Cache Validation Tests', () => {
     mkdirSync(join(TEST_DIR, 'dist'), { recursive: true });
 
     // First run
-    const firstRun = await asyncChildProcess('npm run bad-task');
+    const firstRun = await asyncChildProcess('pnpm bad-task');
     assert.strictEqual(firstRun.code, 0, 'First run should succeed');
 
     // Second run - the task will run again because output isn't properly tracked
-    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics npm run bad-task`;
+    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics pnpm bad-task`;
     const secondRun = await asyncChildProcess(validateCommand);
 
     const logFile = join(TEST_DIR, '.wireit-cache-validate');
@@ -253,14 +253,14 @@ describe('Wireit Cache Validation Tests', () => {
     writeFileSync(join(TEST_DIR, 'src/data.txt'), 'original data');
 
     // First run
-    const firstRun = await asyncChildProcess('npm run incomplete-task');
+    const firstRun = await asyncChildProcess('pnpm incomplete-task');
     assert.strictEqual(firstRun.code, 0, 'First run should succeed');
 
     // Modify the input file that should be tracked but isn't
     writeFileSync(join(TEST_DIR, 'src/data.txt'), 'modified data');
 
     // Second run - will incorrectly use cache because files aren't tracked
-    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics npm run incomplete-task`;
+    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics pnpm incomplete-task`;
     const secondRun = await asyncChildProcess(validateCommand);
 
     const logFile = join(TEST_DIR, '.wireit-cache-validate');
@@ -307,11 +307,11 @@ describe('Wireit Cache Validation Tests', () => {
     mkdirSync(join(TEST_DIR, 'dist'), { recursive: true });
 
     // First run
-    const firstRun = await asyncChildProcess('npm run all');
+    const firstRun = await asyncChildProcess('pnpm all');
     assert.strictEqual(firstRun.code, 0, 'First run should succeed');
 
     // Second run - validate cache
-    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics npm run all`;
+    const validateCommand = `WIREIT_DEBUG_LOG_FILE=.wireit-cache-validate WIREIT_LOGGER=metrics pnpm all`;
     const secondRun = await asyncChildProcess(validateCommand);
     assert.strictEqual(secondRun.code, 0, 'Second run should succeed');
 

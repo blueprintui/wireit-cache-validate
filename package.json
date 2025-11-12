@@ -14,9 +14,9 @@
   "scripts": {
     "test": "node --test test/**/*.test.mjs",
     "cache": "wireit",
-    "cache:validate": "npm run cache && ./src/index.mjs npm run cache",
+    "cache:validate": "pnpm cache && ./src/index.mjs pnpm cache",
     "nocache": "wireit",
-    "nocache:validate": "node ./src/test.mjs && ./src/index.mjs npm run nocache"
+    "nocache:validate": "node ./src/test.mjs && ./src/index.mjs pnpm nocache"
   },
   "keywords": [
     "wireit"
@@ -27,6 +27,7 @@
     "type": "git",
     "url": "https://github.com/blueprintui/wireit-cache-validate"
   },
+  "packageManager": "pnpm@9.15.0",
   "wireit": {
     "cache": {
       "command": "echo 'text'",
