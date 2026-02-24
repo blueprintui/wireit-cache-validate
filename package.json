@@ -1,6 +1,6 @@
 {
   "name": "wireit-cache-validate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Validate if Wireit script is fully cached with subsequent runs.",
   "bin": {
     "wireit-cache-validate": "./src/index.mjs"
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "wireit": "^0.14.9"
+    "wireit": "^0.14.12"
   }
 }
 
